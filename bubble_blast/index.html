@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bubble Blast Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Setup Screen -->
+  <div id="setupScreen" class="setup-screen">
+    <h2>Set Your Challenge</h2>
+    <label>
+      Time (seconds):<br>
+      <input type="number" id="timeInput" min="5" value="30">
+    </label><br><br>
+    <label>
+      Target Bubbles:<br>
+      <input type="number" id="targetInput" min="1" value="50">
+    </label><br><br>
+    <button id="startGameBtn">Start Game</button>
+  </div>
+
+  <!-- Counter + Timer -->
+  <div class="counter" style="display: none;">
+    <div>
+      🎯 Bubble Blasted: <span id="counter">0</span>
+    </div>
+    <div>
+      ⏳ Time Left: <span id="timeLeft">0</span> sec
+    </div>
+  </div>
+
+  <!-- Popup -->
+  <div id="popup" class="popup">
+    <div id="popupMessage"></div>
+    <button id="playAgainBtn">Play Again</button>
+  </div>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
