@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bubble Blast Game</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(to bottom, #010608, #000000);
+      overflow: hidden;
+      position: relative;
+      font-family: Arial, sans-serif;
+    }
+
+    .bubble {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6), rgba(173, 216, 230, 0.2));
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+      position: absolute;
+      bottom: -120px;
+      transform: translateX(-50%);
+      animation: floatUp 8s linear forwards;
+      cursor: pointer;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-50%) translateY(-110vh);
+        opacity: 0;
+      }
+    }
+
+    .blast {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      animation: blastAnimation 0.4s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes blastAnimation {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+    }
+
+    .counter {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 10px 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="counter">Bubble Blasted: <span id="counter">0</span></div>
+
+  <script>
+    let blastCount = 0;
+    const bubbleCount = 5;
+
+    function createBubble() {
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+
+      const randomLeft = Math.random() * 80 + 10;
+      bubble.style.left = `${randomLeft}%`;
+
+      bubble.onclick = function () {
+        createBlast(bubble);
+        bubble.remove();
+        updateCounter();
+        setTimeout(createBubble, 300);
+      };
+
+      bubble.addEventListener("animationend", () => {
+        bubble.remove();
+        setTimeout(createBubble, 300);
+      });
+
+      document.body.appendChild(bubble);
+    }
+
+    function createBlast(bubble) {
+      const blast = document.createElement("div");
+      blast.className = "blast";
+
+      const rect = bubble.getBoundingClientRect();
+      blast.style.left = `${rect.left + rect.width / 2 - 50}px`;
+      blast.style.top = `${rect.top + rect.height / 2 - 50}px`;
+
+      document.body.appendChild(blast);
+
+      setTimeout(() => {
+        blast.remove();
+      }, 400);
+    }
+
+    function updateCounter() {
+      blastCount++;
+      document.getElementById("counter").textContent = blastCount;
+    }
+
+    // Start 5 bubbles at once
+    for (let i = 0; i < bubbleCount; i++) {
+      createBubble();
+    }
+  </script>
+</body>
+</html>
